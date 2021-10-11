@@ -3,15 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>SHOPITESZ - Tienda en Linea del ITESZ</title>
+    <link href="{{url_for('static',filename='css/estilo.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='js/script.js')}}"></script>
 </head>
 <body>
+    <header>
+        <!--<img src="../../static/imagenes/zorro.jpeg"> Sistema de direccionamiento fijo-->
+        <img src="{{url_for('static',filename='imagenes/zorro.jpeg')}}"/>
+        <p>SHOPITESZ - TIENDA EN LINEA DEL ITESZ</p>
+        <img src="{{url_for('static',filename='imagenes/tec.jpeg')}}">
+    </header>
     <nav>
         <a href="/productos"> Productos</a>
         <a href="/usuarios/ingresar">Ingresar</a>
         <a href="/categorias">Categorias</a>
+        <a href="/tarjetas">Tarjetas</a>
     </nav>
     <h1>BIENVENIDO(A) A LA TIENDA EN LINEA SHOPITESZ  </h1>
     <p>Aquí encontraras las mejores ofertas de los productos del mercado</p>
+    <button onclick="saludar()">Saludar</button>
     <a href="/productos">Consultar Productos</a>
     <a href="http://www.teczamora.mx">Tec Zamora</a>
 </body>

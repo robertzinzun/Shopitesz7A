@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request
 
-app=Flask(__name__,template_folder='../vista')
+app=Flask(__name__,template_folder='../vista',static_folder='../static')
 
 @app.route('/')
 def incio():
@@ -31,7 +31,8 @@ def nuevaCategoria():
 
 @app.route('/categorias/editar')
 def editarCategoria():
-    return render_template('categorias/editar.html')
+    nombre='Videojuegos'
+    return render_template('categorias/editar.html',nombreCategoria=nombre)
 
 # fin de la seccion de categorias
 if __name__=='__main__':

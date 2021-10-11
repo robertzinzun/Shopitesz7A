@@ -5,18 +5,20 @@
     <title>SHOPITESZ</title>
 </head>
 <body>
-    <h1>Listado de Categorias</h1>
-    <a href="/categorias/nuevo">Nuevo Categoria</a>
+    <h1 style="color:red">Listado de Categorias</h1>
+    <a href="/categorias/nuevo"><img src="{{url_for('static',filename='imagenes/add.gif')}}">Nuevo Categoria</a>
     <table>
         <thead>
             <th>ID</th>
             <th>Nombre</th>
             <th>Explorar</th>
+            <th>Eliminar</th>
         </thead>
         <tr>
             <td>1</td>
             <td>Equipo de Computo</td>
             <td><a href="/categorias/editar">Mas información</a></td>
+            <td><a href="/categorias/eliminar"><img src="{{url_for('static',filename='imagenes/eliminar.png')}}"></a></td>
 
         </tr>
         <tr>
