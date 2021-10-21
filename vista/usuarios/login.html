@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SHOPITESZ - Tienda en Linea del ITESZ</title>
+    <link href="{{url_for('static',filename='css/estilo.css')}}" rel="stylesheet">
 </head>
 <body>
-    <h1 style="color:red">ACCESO A LA TIENDA</h1>
+    <h1>ACCESO A LA TIENDA</h1>
     <form action="/usuarios/login" method="post">
         <label>Email:</label>
         <input type="email" name="email" required placeholder="Ingresa tu email" maxlength="100">

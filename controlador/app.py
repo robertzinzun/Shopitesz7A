@@ -23,7 +23,8 @@ def ingresar():
 #Seccion para las rutas de categorias
 @app.route('/categorias')
 def categorias():
-    return render_template('categorias/consulta.html')
+
+    return render_template('categorias/consulta.html',categorias=categorias)
 
 @app.route('/categorias/nuevo')
 def nuevaCategoria():

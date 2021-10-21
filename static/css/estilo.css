@@ -1,5 +1,62 @@
-h1{
+h1{/* Selector por elemento HTML*/
     color:blue;
-    font-size:40px;
+    font-size:20px;
     font-family:verdana;
+}
+#miId{/* Selector por ID */
+    color:red;
+    font-size: 12px;
+    font-family: Courier;
+}
+.miClase{/* Selector de Clase */
+    color:green;
+    font-size: 10px;
+    font-family: Impact;
+}
+header{
+    background-color:black;
+}
+.img{
+    height:50px;
+}
+nav a{
+    text-decoration:none;
+}
+nav{
+    background-color: darkseagreen;
+    padding: 5px;
+    font-size: 30px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+nav a:hover{
+    background-color:gray;
+    padding: 5px;
+    font-size: 40px;
+    color:black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+table,tr,td{
+    border-color: blue;
+    border-style: solid;
+}
+th{
+    background-color: beige;
+    border:3px dotted #660000;
+    border-radius: 5px;
+    color:darkslategrey;
+}
+main{
+    background-color: azure;
+    background-image: url('../imagenes/fondo_pantalla2.jpeg');
+    /*background-repeat: repeat;*/
+    background-size: cover;
+    height: 800px;
+}
+#titulo{
+    font-size: 60px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    color:#660000;
+    text-align: center;
 }
