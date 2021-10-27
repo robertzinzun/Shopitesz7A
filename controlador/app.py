@@ -1,11 +1,13 @@
 from flask import Flask,render_template,request
+from flask_bootstrap import Bootstrap
 
 app=Flask(__name__,template_folder='../vista',static_folder='../static')
+Bootstrap(app)
 
 @app.route('/')
 def incio():
     #return '<h1> Bienvenido a la tienda en linea SHOPITESZ </h1>'
-    return  render_template('comunes/index.html')
+    return  render_template('comunes/principal.html')
 
 @app.route('/productos')
 def listarProductos():

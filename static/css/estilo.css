@@ -19,15 +19,18 @@ header{
 .img{
     height:50px;
 }
+/*
 nav a{
     text-decoration:none;
 }
+
 nav{
     background-color: darkseagreen;
     padding: 5px;
     font-size: 30px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+/*
 nav a:hover{
     background-color:gray;
     padding: 5px;
@@ -35,7 +38,7 @@ nav a:hover{
     color:black;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
-}
+}*/
 table,tr,td{
     border-color: blue;
     border-style: solid;
@@ -49,6 +52,7 @@ th{
 main{
     background-color: azure;
     background-image: url('../imagenes/fondo_pantalla2.jpeg');
+    /*opacity:0.9;*/
     /*background-repeat: repeat;*/
     background-size: cover;
     height: 800px;
