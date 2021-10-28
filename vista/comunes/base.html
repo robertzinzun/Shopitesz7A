@@ -3,25 +3,43 @@
     {{super()}}
     <link href="{{url_for('static',filename='css/estilo.css')}}" rel="stylesheet">
 {% endblock %}
-{% block navbar %}
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
-    </ul>
+{% block body %}
+<div class="jumbotron">
+  <div class="container text-center">
+      <div class="row">
+          <div class="col-md-2">
+      <img src="{{url_for('static',filename='imagenes/zorro.jpeg')}}">
+              </div>
+          <div class="col-md-8">
+            <h1>SHOPITEZ</h1>
+            <p>"Tienda en linea del ITESZ"</p>
+          </div>
+          <div class="col-md">
+               <img src="{{url_for('static',filename='imagenes/tec.jpeg')}}">
+          </div>
+          </div>
   </div>
-</nav>
+</div>
+{% block navbar %}
+    {% include 'comunes/menu.html' %}
 {% endblock %}
 {% block content %}
+
 <div class="container">
     <p> Bienvenido al sitio de SHOPITESZ </p>
     {% block principal%}
     {% endblock %}
 </div>
+{% endblock %}
+<footer class="container-fluid text-center">
+  <p>Online Store Copyright</p>
+    <div class="row">
+        <div class="col-md-2">
+         <img src="{{url_for('static',filename='imagenes/logoACC.png')}}">
+        </div>
+        <div class="col-md-10">
+            <p>Sitio desarrollado por la academica de Sistemas del ITESZ, Octubre del 2021</p>
+        </div>
+    </div>
+</footer>
 {% endblock %}

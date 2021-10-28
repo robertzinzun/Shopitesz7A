@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SHOPITESZ</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/estilo.css')}}">
-</head>
-<body>
+{% extends 'comunes/base.html' %}
+{% block principal %}
     <h1 style="color:red">Listado de Categorias</h1>
     <a href="/categorias/nuevo"><img src="{{url_for('static',filename='imagenes/add.gif')}}">Nuevo Categoria</a>
     <table>
@@ -29,5 +23,4 @@
         </tr>
     </table>
     <a href="/">Home</a>
-</body>
-</html>
+{% endblock %}
