@@ -6,21 +6,20 @@
         <thead>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Explorar</th>
-            <th>Eliminar</th>
+            <th>Estatus</th>
+            <th>Imagen</th>
+            <th>Editar</th>
         </thead>
-        <tr>
-            <td>1</td>
-            <td>Equipo de Computo</td>
-            <td><a href="/categorias/editar">Mas información</a></td>
-            <td><a href="/categorias/eliminar"><img src="{{url_for('static',filename='imagenes/eliminar.png')}}"></a></td>
-
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Videojuegos</td>
-            <td><a href="/categorias/editar">Mas información</a></td>
-        </tr>
+        {% for cat in categorias %}
+            <tr>
+                   <td>{{cat.idCategoria}}</td>
+                    <td>{{cat.nombre}}</td>
+                    <td>{{cat.estatus}}</td>
+                    <td><img src="/categorias/imagen/{{cat.idCategoria}}" width="100px"></td>
+                    <td><a href="/categorias/ver/{{cat.idCategoria}}"> <span class="glyphicon glyphicon-edit"></span></a></td>
+            </tr>
+        {% endfor %}
     </table>
+
     <a href="/">Home</a>
 {% endblock %}

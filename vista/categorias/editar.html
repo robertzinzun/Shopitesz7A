@@ -1,23 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Shopitesz</title>
-</head>
-<body>
+{% extends 'comunes/base.html' %}
+{% block principal %}
     <h1>Edición de Categorias</h1>
-    <form action="/categorias/guardar">
+    <form action="/categorias/guardar" method="post" enctype="multipart/form-data">
+        <div class="form-group">
         <label>ID:</label>
-        <input type="number" name="id" required placeholder="ID de la Categoria" value="1">
-        <br>
+        <input type="number" class="form-control" name="id" required placeholder="ID de la Categoria" value="{{categoria.idCategoria}}" readonly>
+        </div>
+        <div class="form-group">
         <label>Nombre:</label>
-        <input type="text" name="nombre" required placeholder="Nombre de la Categoria" value="{{nombreCategoria}}">
-        <br>
+        <input type="text" class="form-control" name="nombre" required placeholder="Nombre de la Categoria" value="{{categoria.nombre}}">
+        </div>
+        <div class="form-group">
+        {% if categoria.estatus==True %}
         <label>Estatus:</label>
-        <input type="checkbox" name="estatus" checked>
-        <br>
-        <button type="submit">Guardar</button>
-        <a href="/categorias">Regresar</a>
+        <input type="checkbox" name="estatus" checked value="True">
+        {% else %}
+            <label>Estatus:</label>
+            <input type="checkbox" name="estatus" value="True">
+        {% endif %}
+        </div>
+        <div class="form-group">
+        <label>Imagen:</label>
+        <input type="file" name="foto">
+         <a data-toggle="modal" data-target="#imagen"><span class="glyphicon glyphicon-eye-open" >Visualizar</span></a>
+        </div>
+        <div class="form-group">
+                <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-floppy-disk">Guardar</span>
+        </button>
+        <button type="button" data-toggle="modal" data-target="#eliminar" class="btn btn-info">
+            <span class="glyphicon glyphicon-trash">Eliminar</span>
+        </button>
+        <a href="/categorias" class="btn btn-danger">Regresar</a>
+        </div>
     </form>
-</body>
-</html>
+      <!-- Modal -->
+<div id="eliminar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminación de Categorias</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿ Estas seguro de eliminar la categoria {{categoria.nombre}} ?</p>
+      </div>
+      <div class="modal-footer">
+          <a href="/categorias/eliminar/{{categoria.idCategoria}}" class="btn btn-info">Aceptar</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Modal -->
+<div id="imagen" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Imagen de {{categoria.nombre}}</h4>
+      </div>
+      <div class="modal-body">
+        <img src="/categorias/imagen/{{categoria.idCategoria}}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% if get_flashed_messages()%}
+        {% for m in get_flashed_messages()%}
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{m}}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+{% endblock %}
