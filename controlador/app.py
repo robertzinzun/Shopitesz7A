@@ -1,6 +1,7 @@
-from flask import Flask,render_template,request,flash
+from flask import Flask,render_template,request,flash,redirect,url_for
 from flask_bootstrap import Bootstrap
-from modelo.DAO import db,Categoria
+from modelo.DAO import db,Categoria,Usuario
+from flask_login import LoginManager,current_user,login_required,login_user,logout_user
 
 app=Flask(__name__,template_folder='../vista',static_folder='../static')
 Bootstrap(app)
@@ -8,7 +9,13 @@ Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://userShopitesz:Hola.123@localhost/Shopitesz_v2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='cl4v3'
+login_manager=LoginManager()
+login_manager.init_app(app)
+login_manager.login_view='login'
 
+@login_manager.user_loader
+def load_user(id):
+    return Usuario.query.get(int(id))
 @app.route('/')
 def incio():
     #return '<h1> Bienvenido a la tienda en linea SHOPITESZ </h1>'
@@ -20,12 +27,12 @@ def listarProductos():
     return render_template('productos/listado.html')
 
 @app.route('/usuarios/login',methods=['post'])
-def login():
+def validarUsuario():
     email=request.form['email']
     return 'Validando la cuenta de usuario:'+email
 
 @app.route('/usuarios/ingresar')
-def ingresar():
+def login():
     return render_template('usuarios/login.html')
 #Seccion para las rutas de categorias
 @app.route('/categorias')
@@ -70,10 +77,17 @@ def agregarCategoria():
     c.insertar()
     flash('Categoria registrada con exito')
     return render_template('categorias/nuevo.html')
+
 @app.route('/categorias/imagen/<int:id>')
 def consultarImagenCategoria(id):
     c=Categoria()
     return c.consultaIndividual(id).foto
+@app.route('/categorias/eliminar/<int:id>')
+def eliminarCategoria(id):
+    c=Categoria()
+    c.eliminar(id)
+    flash('Categoria eliminada con exito')
+    return redirect(url_for('categorias'))
 # fin de la seccion de categorias
 if __name__=='__main__':
     db.init_app(app)

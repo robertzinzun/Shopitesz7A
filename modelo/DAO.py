@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column,Integer,String,Boolean,BLOB,Date
-
+from flask_login import UserMixin
 db=SQLAlchemy()
 
 class Categoria(db.Model):
@@ -28,3 +28,64 @@ class Categoria(db.Model):
 
     def consultaGeneral(self):
         return self.query.all()
+
+class Usuario(UserMixin,db.Model):
+    __tablename__='Usuarios'
+    idUsuario=Column(Integer,primary_key=True)
+    nombreCompleto=Column(String(60),nullable=False)
+    domicilio=Column(String(200),nullable=False)
+    telefono=Column(String(12),nullable=False)
+    email=Column(String(100),unique=True)
+    password=Column(String(20),nullable=False)
+    tipo=Column(String(10),default='Comprador')
+    estatus=Column(Boolean,default=True)
+    #Metodos del CRUD
+    def insertar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def consultaIndividual(self,id):
+        return self.query.get(id)
+
+    def actualizar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminar(self,id):
+        objeto=self.consultaIndividual(id)
+        db.session.delete(objeto)
+        db.session.commit()
+
+    def consultaGeneral(self):
+        return self.query.all()
+    #Metodos relacionados al perfilamiento
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+         return self.estatus
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.idUsuario
+
+    def is_admin(self):
+        if self.tipo=='Administrador':
+            return True
+        else:
+            return False
+
+    def is_comprador(self):
+        if self.tipo=='Comprador':
+            return True
+        else:
+            return False
+
+    def is_vendedor(self):
+        if self.tipo=='Vendedor':
+            return True
+        else:
+            return False
+
