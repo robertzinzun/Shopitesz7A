@@ -13,12 +13,27 @@
         <li class="active"><a href="/">Home</a></li>
         <li><a href="#">Productos</a></li>
         <li><a href="/categorias">Categorias</a></li>
-        <li><a href="#">Pedidos</a></li>
-        <li><a href="#">Envios</a></li>
+        {% if current_user.is_authenticated and (current_user.is_comprador() or current_user.is_vendedor()) %}
+          <li><a href="#">Pedidos</a></li>
+          <li><a href="#">Envios</a></li>
+        {% endif %}
+
       </ul>
+
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/usuarios/ingresar"><span class="glyphicon glyphicon-user"></span> Roberto</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Carrito</a></li>
+        {% if current_user.is_authenticated %}
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>{{current_user.nombreCompleto}}
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"> <span class="glyphicon glyphicon-edit"></span> Editar Perfil</a></li>
+            <li><a href="/cerrarSesion"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a></li>
+          </ul>
+        </li>
+        {% else %}
+          <li><a href="/usuarios/ingresar"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% endif %}
       </ul>
     </div>
   </div>

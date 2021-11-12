@@ -9,14 +9,18 @@
         </div>
         {% endfor %}
     {% endif %}
-    <a href="/categorias/nuevo"><img src="{{url_for('static',filename='imagenes/add.gif')}}">Nuevo Categoria</a>
+    {% if current_user.is_authenticated and current_user.is_admin() %}
+        <a href="/categorias/nuevo"><img src="{{url_for('static',filename='imagenes/add.gif')}}">Nuevo Categoria</a>
+    {% endif %}
     <table>
         <thead>
             <th>ID</th>
             <th>Nombre</th>
             <th>Estatus</th>
             <th>Imagen</th>
-            <th>Editar</th>
+            {% if current_user.is_authenticated and current_user.is_admin() %}
+                <th>Editar</th>
+            {% endif %}
         </thead>
         {% for cat in categorias %}
             <tr>
@@ -24,7 +28,13 @@
                     <td>{{cat.nombre}}</td>
                     <td>{{cat.estatus}}</td>
                     <td><img src="/categorias/imagen/{{cat.idCategoria}}" width="100px"></td>
-                    <td><a href="/categorias/ver/{{cat.idCategoria}}"> <span class="glyphicon glyphicon-edit"></span></a></td>
+                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                        <td>
+                            <a href="/categorias/ver/{{cat.idCategoria}}">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </td>
+                    {% endif %}
             </tr>
         {% endfor %}
     </table>

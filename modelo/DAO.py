@@ -58,6 +58,12 @@ class Usuario(UserMixin,db.Model):
 
     def consultaGeneral(self):
         return self.query.all()
+
+    def validar(self,email,passw):
+        usuario=None
+        usuario=self.query.filter(Usuario.email==email,Usuario.password==passw,Usuario.estatus==True).first()
+        return usuario
+
     #Metodos relacionados al perfilamiento
     def is_authenticated(self):
         return True
