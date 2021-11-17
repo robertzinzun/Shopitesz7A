@@ -1,4 +1,7 @@
 {% extends 'comunes/base.html' %}
+{% block navbar %}
+  {% include 'comunes/menu.html' %}
+{% endblock %}
 {% block principal %}
     <h1>Edición de Categorias</h1>
     <form action="/categorias/guardar" method="post" enctype="multipart/form-data">

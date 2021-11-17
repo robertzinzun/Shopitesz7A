@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column,Integer,String,Boolean,BLOB,Date
+from sqlalchemy import Column,Integer,String,Boolean,BLOB,Date,ForeignKey,Float
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship
 db=SQLAlchemy()
 
 class Categoria(db.Model):
@@ -95,3 +96,20 @@ class Usuario(UserMixin,db.Model):
         else:
             return False
 
+class Producto(db.Model):
+    __tablename__='Productos'
+    idProducto=Column(Integer,primary_key=True)
+    idCategoria=Column(Integer,ForeignKey('Categorias.idCategoria'))
+    nombre=Column(String(50),nullable=False)
+    decripcion=Column(String(100),nullable=True)
+    precio=Column(Float,nullable=False)
+    existencia=Column(Integer,nullable=False,default=0)
+    Color=Column(String(25),nullable=True)
+    marca=Column(String(50),nullable=False)
+    costoEnvio=Column(Float,nullable=False)
+    estatus=Column(Boolean,default=True)
+    foto=Column(BLOB,nullable=True)
+    categoria=relationship('Categoria',backref='productos',lazy='select')
+
+    def consultaIndividual(self,id):
+        return self.query.get(id)

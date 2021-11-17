@@ -1,6 +1,6 @@
-from flask import Flask,render_template,request,flash,redirect,url_for
+from flask import Flask,render_template,request,flash,redirect,url_for,abort
 from flask_bootstrap import Bootstrap
-from modelo.DAO import db,Categoria,Usuario
+from modelo.DAO import db,Categoria,Usuario,Producto
 from flask_login import LoginManager,current_user,login_required,login_user,logout_user
 
 app=Flask(__name__,template_folder='../vista',static_folder='../static')
@@ -22,10 +22,12 @@ def incio():
     #return '<h1> Bienvenido a la tienda en linea SHOPITESZ </h1>'
     return  render_template('comunes/principal.html')
 
-@app.route('/productos')
-def listarProductos():
-
-    return render_template('productos/listado.html')
+@app.route('/productos/<int:id>')
+def listarProductos(id):
+    p=Producto()
+    p=p.consultaIndividual(id)
+    return p.nombre+':'+p.categoria.nombre+':'+str(p.categoria.idCategoria)
+    #return render_template('productos/listado.html')
 #seccion para los usuarios
 @app.route('/usuarios/login',methods=['post'])
 def validarUsuario():
@@ -47,7 +49,10 @@ def cerrarSesion():
 
 @app.route('/usuarios/ingresar')
 def login():
-    return render_template('usuarios/login.html')
+    if current_user.is_authenticated:
+        return render_template('comunes/principal.html')
+    else:
+        return render_template('usuarios/login.html')
 
 @app.route('/usuarios/nuevo')
 def nuevoUsuario():
@@ -78,43 +83,55 @@ def categorias():
 @app.route('/categorias/nuevo')
 @login_required
 def nuevaCategoria():
-    return render_template('categorias/nuevo.html')
+    if current_user.is_authenticated and current_user.is_admin():
+        return render_template('categorias/nuevo.html')
+    else:
+        abort(404)
 
 @app.route('/categorias/ver/<int:id>')
 @login_required
 def consultarCategoria(id):
-    c = Categoria()
-    return render_template('categorias/editar.html',categoria=c.consultaIndividual(id))
+    if current_user.is_authenticated and current_user.is_admin():
+        c = Categoria()
+        return render_template('categorias/editar.html',categoria=c.consultaIndividual(id))
+    else:
+        abort(404)
 
 @app.route('/categorias/guardar',methods=['post'])
 @login_required
 def editarCategoria():
-    c=Categoria()
-    c.idCategoria=request.form['id']
-    c.nombre=request.form['nombre']
+    if current_user.is_authenticated and current_user.is_admin():
+        c=Categoria()
+        c.idCategoria=request.form['id']
+        c.nombre=request.form['nombre']
 
-    estatus=request.values.get('estatus',False)
-    if estatus=="True":
-        c.estatus=True
+        estatus=request.values.get('estatus',False)
+        if estatus=="True":
+            c.estatus=True
+        else:
+            c.estatus=False
+
+        imagen=request.files['foto'].read()
+        if imagen:
+            c.foto=imagen
+        c.actualizar()
+        flash('Categoria editada con exito')
+        return render_template('categorias/editar.html',categoria=c)
     else:
-        c.estatus=False
-
-    imagen=request.files['foto'].read()
-    if imagen:
-        c.foto=imagen
-    c.actualizar()
-    flash('Categoria editada con exito')
-    return render_template('categorias/editar.html',categoria=c)
+        abort(404)
 
 @app.route('/categorias/agregar',methods=['post'])
 @login_required
 def agregarCategoria():
-    c=Categoria()
-    c.nombre=request.form['nombre']
-    c.foto=request.files['foto'].read()
-    c.insertar()
-    flash('Categoria registrada con exito')
-    return render_template('categorias/nuevo.html')
+    if current_user.is_authenticated and current_user.is_admin():
+        c=Categoria()
+        c.nombre=request.form['nombre']
+        c.foto=request.files['foto'].read()
+        c.insertar()
+        flash('Categoria registrada con exito')
+        return render_template('categorias/nuevo.html')
+    else:
+        abort(404)
 
 @app.route('/categorias/imagen/<int:id>')
 def consultarImagenCategoria(id):
@@ -123,11 +140,20 @@ def consultarImagenCategoria(id):
 @app.route('/categorias/eliminar/<int:id>')
 @login_required
 def eliminarCategoria(id):
-    c=Categoria()
-    c.eliminar(id)
-    flash('Categoria eliminada con exito')
-    return redirect(url_for('categorias'))
+    if current_user.is_authenticated and current_user.is_admin():
+        c=Categoria()
+        c.eliminar(id)
+        flash('Categoria eliminada con exito')
+        return redirect(url_for('categorias'))
+    else:
+        abort(404)
 # fin de la seccion de categorias
+
+#seccion de errores
+@app.errorhandler(404)
+def error_404(e):
+    return render_template('comunes/error_404.html'),404
+
 if __name__=='__main__':
     db.init_app(app)
     app.run(debug=True)
