@@ -28,6 +28,20 @@ def listarProductos(id):
     p=p.consultaIndividual(id)
     return p.nombre+':'+p.categoria.nombre+':'+str(p.categoria.idCategoria)
     #return render_template('productos/listado.html')
+
+@app.route('/productos/nuevo')
+def nuevoProducto():
+    c=Categoria()
+    return render_template('productos/nuevo.html',categorias=c.consultaGeneral())
+
+@app.route('/productos/registrar', methods=['post'])
+def registrarProducto():
+    nombre=request.form['nombre']
+    cat2=request.form['categoria']
+    print(cat2)
+    print(nombre)
+    cat=request.form['idCategoria']
+    return cat
 #seccion para los usuarios
 @app.route('/usuarios/login',methods=['post'])
 def validarUsuario():
@@ -71,6 +85,29 @@ def registrarUsuario():
     flash('Usuario registrado con exito')
     return redirect(url_for('nuevoUsuario'))
 
+@app.route('/usuarios/editarPerfil')
+def editarPerfil():
+    if current_user.is_authenticated:
+        return render_template('usuarios/editarPerfil.html')
+    else:
+        abort(404)
+
+@app.route('/usuarios/guardarPerfil',methods=['post'])
+def guardarPerfil():
+    u=Usuario()
+    u.idUsuario=current_user.idUsuario
+    u.nombreCompleto=request.form['nombre']
+    u.telefono=request.form['telefono']
+    u.email=current_user.email
+    u.domicilio=request.form['domicilio']
+    u.password=request.form['password']
+    u.tipo=request.form['tipo']
+    u.estatus=current_user.estatus
+    u.sexo=request.form['sexo']
+    u.actualizar()
+    login_user(u)
+    flash('Datos modificados con exito')
+    return render_template('usuarios/editarPerfil.html')
 
 #fin de la sección de usuarios
 #Seccion para las rutas de categorias
