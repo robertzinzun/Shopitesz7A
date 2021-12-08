@@ -2,14 +2,16 @@
 {% block navbar %}
      {% include 'comunes/menu.html' %}
 {% endblock %}
+{% block scripts %}
+    {{super()}}
+    <script src="{{url_for('static',filename='js/usuarios.js')}}"></script>
+{% endblock %}
 {% block principal %}
-<div class="row">
-<div class="col-md-offset-6">
-    <h1>Registro de Usuarios</h1>
-</div>
-</div>
     <div class="well">
-    <form action="/usuarios/registrar" method="post">
+        <div class="text text-center">
+            <h1 class="bg bg-warning">Registro de Usuarios</h1>
+        </div>
+    <form action="/usuarios/registrar" method="post" onsubmit="return validar(this)">
 
         <div class="form-group">
             <label for="nombre">Nombre:</label>
@@ -21,6 +23,13 @@
             <input type="text" class="form-control" name="domicilio" required placeholder="Domicilio" class="form-control">
 
         </div>
+        <label>Genero:</label>
+        <label class="radio-inline">
+            <input type="radio" name="genero" value="F" checked>Femenino
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="genero" value="M">Masculino
+        </label>
         <div class="form-group">
 
             <label for="telefono">Telefono:</label>
@@ -55,6 +64,9 @@
             <a href="/usuarios/ingresar" class="btn btn-info">Regresar</a>
         </div>
     </form>
+        <div id="notificaciones" style="background-color:brown;color:white">
+
+        </div>
         {% if get_flashed_messages()%}
         {% for m in get_flashed_messages()%}
         <div class="alert alert-success alert-dismissible">

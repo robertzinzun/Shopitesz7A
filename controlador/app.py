@@ -81,6 +81,7 @@ def registrarUsuario():
     user.email = request.form['email']
     user.password = request.form['password']
     user.tipo = request.form['tipo']
+    user.sexo=request.form['genero']
     user.insertar()
     flash('Usuario registrado con exito')
     return redirect(url_for('nuevoUsuario'))
