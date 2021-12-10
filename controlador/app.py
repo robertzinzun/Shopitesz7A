@@ -5,7 +5,7 @@ from flask_login import LoginManager,current_user,login_required,login_user,logo
 
 app=Flask(__name__,template_folder='../vista',static_folder='../static')
 Bootstrap(app)
-
+import json
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://userShopitesz:Hola.123@localhost/Shopitesz_v2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='cl4v3'
@@ -109,6 +109,11 @@ def guardarPerfil():
     login_user(u)
     flash('Datos modificados con exito')
     return render_template('usuarios/editarPerfil.html')
+
+@app.route('/usuarios/email/<string:email>',methods=['get'])
+def consultarEmail(email):
+    usuario=Usuario()
+    return json.dumps(usuario.consultarEmail(email))
 
 #fin de la sección de usuarios
 #Seccion para las rutas de categorias

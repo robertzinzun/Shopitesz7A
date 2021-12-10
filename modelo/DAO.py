@@ -66,6 +66,18 @@ class Usuario(UserMixin,db.Model):
         usuario=self.query.filter(Usuario.email==email,Usuario.password==passw,Usuario.estatus==True).first()
         return usuario
 
+    def consultarEmail(self,email):
+        salida={"estatus":"","mensaje":""}
+        usuario=None
+        usuario=self.query.filter(Usuario.email==email).first()
+        if usuario!=None:
+            salida["estatus"]="Error"
+            salida["mensaje"]="El correo "+email+" ya se encuentra registrado."
+        else:
+            salida["estatus"]="Ok"
+            salida["mensaje"]="El correo "+email+" esta libre."
+        return salida
+
     #Metodos relacionados al perfilamiento
     def is_authenticated(self):
         return True

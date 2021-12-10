@@ -39,14 +39,15 @@
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" name="email" class="form-control" required placeholder="Correo electrónico" class="form-control">
+            <input type="email" name="email" id="email" class="form-control" required placeholder="Correo electrónico" class="form-control" onblur="consultarEmail()">
 
         </div>
         <div class="form-group">
             <label for="password">Contraseña:</label>
-            <input type="password" class="form-control" name="password" required placeholder="Password" class="form-control">
+            <input type="password" class="form-control" name="password" required placeholder="Password" class="form-control" id="password">
 
         </div>
+        <input type="checkbox" id="ver" onclick="verPassword()">Ver password
         <div class="form-group">
             <div class="col-md-1">
                 <label for="tipo">Tipo:</label>
@@ -60,7 +61,7 @@
             {% endif %}
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Registrar">
+            <input type="submit" class="btn btn-primary" value="Registrar" disabled id="registrar">
             <a href="/usuarios/ingresar" class="btn btn-info">Regresar</a>
         </div>
     </form>
