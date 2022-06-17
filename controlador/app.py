@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,flash,redirect,url_for,abort
 from flask_bootstrap import Bootstrap
-from modelo.DAO import db,Categoria,Usuario,Producto
+from modelo.DAO import db, Categoria, Usuario, Producto, Paqueterias
 from flask_login import LoginManager,current_user,login_required,login_user,logout_user
 
 app=Flask(__name__,template_folder='../vista',static_folder='../static')
@@ -191,7 +191,12 @@ def eliminarCategoria(id):
     else:
         abort(404)
 # fin de la seccion de categorias
-
+# Seccion paqueterias
+@app.route('/paqueterias')
+def consultaPaqueterias():
+    p=Paqueterias()
+    return render_template('paqueterias/consulta.html',paqueterias=p.consultaGeneral())
+#fin de seccion
 #seccion de errores
 @app.errorhandler(404)
 def error_404(e):

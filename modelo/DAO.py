@@ -109,6 +109,33 @@ class Usuario(UserMixin,db.Model):
         else:
             return False
 
+class Paqueterias(db.Model):
+    __tablename__='Paqueterias'
+    idPaqueteria=Column(Integer,primary_key=True,autoincrement=True)
+    nombre=Column(String(50),nullable=False,unique=True)
+    paginaWeb=Column(String(200),nullable=True)
+    telefono=Column(String(12),nullable=False)
+    estatus=Column(Boolean,default=True)
+    def insertar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def consultaIndividual(self,id):
+        return self.query.get(id)
+
+    def actualizar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminar(self,id):
+        objeto=self.consultaIndividual(id)
+        db.session.delete(objeto)
+        db.session.commit()
+
+    def consultaGeneral(self):
+        return self.query.all()
+
+
 class Producto(db.Model):
     __tablename__='Productos'
     idProducto=Column(Integer,primary_key=True)
